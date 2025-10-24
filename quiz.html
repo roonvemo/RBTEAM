@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مهام الإدارة - Royal Bee (Admin) - التدريب</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{ --orange:#FF751F; --glass: rgba(255,255,255,0.18); --glass-strong: rgba(255,255,255,0.28); --text:#072022; --muted:#666; --shadow: rgba(0,0,0,0.12); } 
+*{box-sizing:border-box} 
+html,body{height:100%;margin:0;font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#f6fbff,#e9f6f2);color:var(--text);-webkit-font-smoothing:antialiased;} 
+.container{max-width:1100px;margin:80px auto 120px;padding:20px;} 
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px} 
+.title {font-size:22px;color:var(--orange);font-weight:700} 
+.top-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center} 
+#workflowBtn{position:fixed;top:14px;right:14px;width:52px;height:52px;border-radius:50%;background:var(--glass-strong);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px var(--shadow);z-index:1001;text-decoration:none;color:var(--orange)} 
+#workflowBtn:hover{transform:scale(1.05);background:var(--orange);color:#fff} 
+.section{display:none;background:var(--glass);backdrop-filter:blur(8px);border-radius:14px;padding:18px;margin-bottom:22px;box-shadow:0 8px 30px var(--shadow)} 
+.section.active{display:block} 
+.grid-2{display:grid;grid-template-columns:1fr 420px;gap:18px} 
+@media(max-width:920px){.grid-2{grid-template-columns:1fr;}} 
+.card{background:rgba(255,255,255,0.08);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 6px 18px rgba(0,0,0,0.06)} 
+label{display:block;margin:8px 0 6px;font-weight:700} 
+input[type="text"], input[type="time"], input[type="search"], select, textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#fff} 
+textarea{min-height:90px;resize:vertical} 
+.btn, .small-btn{background:var(--orange);color:#fff;border:none;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700} 
+.small-btn{padding:6px 10px;border-radius:10px} 
+.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text);padding:8px 10px;border-radius:10px} 
+.preview-box img, .preview-box video, .preview-box iframe{max-width:100%;border-radius:10px;display:block;margin-bottom:6px} 
+.bottom-bar{position:fixed;bottom:0;right:0;left:0;height:64px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);display:flex;justify-content:space-around;align-items:center;border-top:1px solid rgba(0,0,0,0.06);box-shadow:0 -8px 18px rgba(0,0,0,0.06);z-index:1000} 
+.bottom-bar a img{width:28px;height:28px;display:block;cursor:pointer;opacity:0.95;transition:transform .15s} 
+.bottom-bar a img:hover{transform:scale(1.15)} 
+.controls-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap} 
+.kv{font-size:13px;color:var(--muted)} 
+.days-container, .months-container{display:flex;flex-wrap:wrap;gap:6px;max-height:120px;overflow-y:auto;border:1px solid #ccc;padding:6px;border-radius:6px;background:#fff;margin-bottom:6px;}
+</style>
+</head>
+<body>
+
+<a id="workflowBtn" href="quiz.html" title="Workflow">⚙️</a>
+
+<div class="container">
+  <div class="header-row">
+    <div>
+      <div class="title">لوحة إدارة العمل — Admin Panel</div>
+      <div class="kv">تحكم المنشورات، التدريب، طلبات الارتقاء، الإشعارات، إدارة المستخدمين والمتابعة اليومية</div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="section active">
+    <h3>🎯 برمجة التدريب (Quiz)</h3>
+    <div class="grid-2">
+      <div>
+        <label>صورة / فيديو / رابط أعلى الكويز</label>
+        <input type="file" id="quizFile" accept="image/*,video/*" />
+        <div class="preview-box" id="quizPreviewMedia"></div>
+
+        <label>رابط يوتيوب (اختياري)</label>
+        <input type="text" id="quizLink" placeholder="ضع رابط YouTube هنا" />
+        <div class="preview-box" id="quizPreviewYouTube"></div>
+
+        <label>السؤال</label>
+        <textarea id="quizQuestion" placeholder="اكتب السؤال هنا..."></textarea>
+
+        <label>خيارات الإجابة</label>
+        <input type="text" id="opt1" placeholder="خيار 1" />
+        <input type="text" id="opt2" placeholder="خيار 2" />
+        <input type="text" id="opt3" placeholder="خيار 3" />
+        <input type="text" id="opt4" placeholder="خيار 4" />
+
+        <label>الإجابة الصحيحة</label>
+        <select id="correctOpt">
+          <option value="1">خيار 1</option>
+          <option value="2">خيار 2</option>
+          <option value="3">خيار 3</option>
+          <option value="4">خيار 4</option>
+        </select>
+
+        <!-- اختيار أيام النشر -->
+        <label>اختر أيام النشر:</label>
+        <div class="days-container" id="daysContainer"></div>
+
+        <!-- اختيار أشهر النشر -->
+        <label>اختر أشهر النشر:</label>
+        <div class="months-container" id="monthsContainer"></div>
+
+        <!-- أوقات النشر -->
+        <label>أوقات النشر:</label>
+        <div style="display:flex;gap:8px;">
+          <label><input type="checkbox" value="09:00" checked> 09:00</label>
+          <label><input type="checkbox" value="18:00" checked> 18:00</label>
+          <label><input type="checkbox" value="21:00" checked> 21:00</label>
+        </div>
+
+        <div style="margin-top:8px" class="controls-row">
+          <button class="btn" id="saveQuizBtn">حفظ التدريب</button>
+        </div>
+      </div>
+      <div>
+        <h4>معاينة التدريب</h4>
+        <div class="card" id="quizPreviewCard">
+          <div id="quizPreviewTitle" style="font-weight:700;margin-bottom:8px">لا توجد معاينة بعد</div>
+          <div id="quizPreviewBody" style="margin-top:10px;color:var(--muted)"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- bottom bar -->
+<div class="bottom-bar">
+  <a href="index.html"><img src="assets/icons/home.png" alt="home"></a>
+  <a href="chatrooms.html"><img src="assets/icons/chat.png" alt="chat"></a>
+  <a href="tasks.html"><img src="assets/icons/taches.png" alt="tasks"></a>
+  <a href="upgrade-demande.html"><img src="assets/icons/up.png" alt="upgrade"></a>
+  <a href="profile.html"><img src="assets/icons/profile.png" alt="profile"></a>
+</div>
+
+<script>
+// إنشاء أيقونات الأيام 1-31
+const daysContainer = document.getElementById('daysContainer');
+for(let i=1;i<=31;i++){
+  const lbl = document.createElement('label');
+  lbl.innerHTML = `<input type="checkbox" value="${i}"> ${i}`;
+  daysContainer.appendChild(lbl);
+}
+
+// إنشاء أيقونات الأشهر
+const monthsContainer = document.getElementById('monthsContainer');
+const monthNames = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+for(let i=0;i<12;i++){
+  const lbl = document.createElement('label');
+  lbl.innerHTML = `<input type="checkbox" value="${i+1}"> ${monthNames[i]}`;
+  monthsContainer.appendChild(lbl);
+}
+
+// ---------- QUIZ preview/save ----------
+// معاينة الملف (صورة أو فيديو)
+document.getElementById('quizFile').addEventListener('change',e=>{
+  const f=e.target.files[0], target=document.getElementById('quizPreviewMedia');
+  target.innerHTML='';
+  if(!f) return;
+  if(f.type.startsWith('image/')){
+    const img=document.createElement('img');
+    img.src=URL.createObjectURL(f);
+    target.appendChild(img);
+  } else if(f.type.startsWith('video/')){
+    const v=document.createElement('video');
+    v.controls=true;
+    v.src=URL.createObjectURL(f);
+    target.appendChild(v);
+  }
+});
+
+// معاينة رابط يوتيوب كصورة وفيديو
+document.getElementById('quizLink').addEventListener('input',()=>{
+  const link = document.getElementById('quizLink').value.trim();
+  const container = document.getElementById('quizPreviewYouTube');
+  container.innerHTML = '';
+  const ytMatch = link.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/) 
+                || link.match(/(?:https?:\/\/)?(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]+)/);
+  if(ytMatch){
+    const videoId = ytMatch[1];
+    // الصورة المصغرة للفيديو
+    const thumb = document.createElement('img');
+    thumb.src = `https://img.youtube.com/vi/${videoId}/0.jpg`;
+    container.appendChild(thumb);
+    // iframe تحت الصورة
+    const iframe = document.createElement('iframe');
+    iframe.width = '100%';
+    iframe.height = '220';
+    iframe.src = `https://www.youtube.com/embed/${videoId}`;
+    iframe.frameBorder = '0';
+    iframe.allowFullscreen = true;
+    container.appendChild(iframe);
+  }
+});
+
+// حفظ التدريب مع الأيام والأشهر والأوقات
+document.getElementById('saveQuizBtn').addEventListener('click',()=>{
+  const selectedDays = Array.from(daysContainer.querySelectorAll('input:checked')).map(i=>i.value);
+  const selectedMonths = Array.from(monthsContainer.querySelectorAll('input:checked')).map(i=>i.value);
+  const selectedTimes = Array.from(document.querySelectorAll('div input[type="checkbox"]:checked')).map(i=>i.value);
+  alert(`تم حفظ التدريب (محلياً - تجريبي).\nالأيام: ${selectedDays.join(', ')}\nالأشهر: ${selectedMonths.join(', ')}\nالأوقات: ${selectedTimes.join(', ')}`);
+});
+
+// preview question text
+document.getElementById('quizQuestion').addEventListener('input', ()=>{
+  document.getElementById('quizPreviewTitle').textContent = document.getElementById('quizQuestion').value.slice(0,80);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة الإدارة - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #FF751F;
+  --blue: #007BFF;
+  --green: #28A745;
+  --red: #DC3545;
+  --purple: #6F42C1;
+  --shadow: rgba(0,0,0,0.12);
+  --text: #072022;
+}
+* {box-sizing:border-box;}
+body {
+  margin:0; font-family:'Tajawal',sans-serif;
+  background: linear-gradient(135deg,#f6fbff,#e9f6f2);
+  color: var(--text);
+}
+.container {
+  max-width: 1100px;
+  margin: 80px auto 120px;
+  padding: 20px;
+}
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--orange);
+  text-align:center;
+  margin-bottom: 30px;
+}
+
+/* grid buttons */
+.grid-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap: 18px;
+}
+
+.admin-btn {
+  padding: 28px 20px;
+  border-radius: 18px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  background: var(--orange);
+  cursor: pointer;
+  box-shadow: 0 8px 24px var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+.admin-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px var(--shadow);
+}
+.admin-btn.posts {background: var(--orange);}
+.admin-btn.quiz {background: var(--blue);}
+.admin-btn.requests {background: var(--green);}
+.admin-btn.notifications {background: var(--red);}
+.admin-btn.users {background: var(--purple);}
+.admin-btn.followup {background: #20c997;}
+
+/* bottom bar */
+.bottom-bar {
+  position: fixed;
+  bottom: 0; left:0; right:0;
+  height: 64px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  display:flex;
+  justify-content: space-around;
+  align-items:center;
+  border-top:1px solid rgba(0,0,0,0.06);
+  box-shadow:0 -8px 18px rgba(0,0,0,0.06);
+  z-index:1000;
+}
+.bottom-bar a img {
+  width:28px;
+  height:28px;
+  display:block;
+  cursor:pointer;
+  opacity:0.95;
+  transition: transform 0.15s;
+}
+.bottom-bar a img:hover {
+  transform: scale(1.15);
+}
+@media(max-width:520px){
+  .title{font-size:24px;}
+  .admin-btn{font-size:14px; padding:20px 16px; min-height:90px;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="title">لوحة إدارة العمل — Dashboard</div>
+  
+  <div class="grid-buttons">
+    <a href="posts.html" class="admin-btn posts">📢 برمجة المنشورات</a>
+    <a href="quiz.html" class="admin-btn quiz">🎯 برمجة التدريب</a>
+    <a href="requests.html" class="admin-btn requests">📩 طلبات الارتقاء</a>
+    <a href="notifications.html" class="admin-btn notifications">🔔 برمجة الإشعارات</a>
+    <a href="users.html" class="admin-btn users">👥 إدارة المستخدمين</a>
+    <a href="followup.html" class="admin-btn followup">📊 المتابعة اليومية</a>
+  </div>
+</div>
+
+<!-- bottom bar -->
+<div class="bottom-bar">
+  <a href="index.html"><img src="assets/icons/home.png" alt="home"></a>
+  <a href="chatrooms.html"><img src="assets/icons/chat.png" alt="chat"></a>
+  <a href="tasks.html"><img src="assets/icons/taches.png" alt="tasks"></a>
+  <a href="upgrade-demande.html"><img src="assets/icons/up.png" alt="upgrade"></a>
+  <a href="profile.html"><img src="assets/icons/profile.png" alt="profile"></a>
+</div>
+
+</body>
+</html>

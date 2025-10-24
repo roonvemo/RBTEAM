@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تسجيل الدخول - Royal Bee</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--orange:#FF751F;--glass: rgba(255,255,255,0.18);--glass-strong: rgba(255,255,255,0.28);--text:#072022;--muted:#666;--shadow: rgba(0,0,0,0.12);}
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#f6fbff,#e9f6f2);color:var(--text);display:flex;justify-content:center;align-items:center;}
+.container{background:var(--glass-strong);backdrop-filter:blur(8px);padding:40px 30px;border-radius:18px;box-shadow:0 8px 30px var(--shadow);max-width:400px;width:100%;}
+h2{text-align:center;color:var(--orange);margin-bottom:20px;}
+label{display:block;margin:10px 0 6px;font-weight:700;}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#fff;margin-bottom:10px;}
+.btn{width:100%;padding:12px;background:var(--orange);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;margin-top:10px;}
+.btn:hover{transform:scale(1.03);transition:0.2s;}
+.kv{text-align:center;color:var(--muted);font-size:13px;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2 id="formTitle">تسجيل الدخول</h2>
+  <form id="loginForm">
+    <label for="idNum">الرقم التعريفي</label>
+    <input type="text" id="idNum" placeholder="أدخل رقمك التعريفي" required>
+
+    <label for="password">كلمة المرور</label>
+    <input type="password" id="password" placeholder="********" required>
+
+    <div id="firstTimeFields" style="display:none;">
+      <label for="confirmPassword">تأكيد كلمة المرور</label>
+      <input type="password" id="confirmPassword" placeholder="********">
+      <label for="upline">اسم الابلاين</label>
+      <input type="text" id="upline" placeholder="اسم الابلاين">
+    </div>
+
+    <button type="submit" class="btn">تسجيل الدخول</button>
+  </form>
+  <div class="kv" id="kvMsg">ادخل الرقم التعريفي وكلمة المرور</div>
+</div>
+
+<script>
+// ---------- تحميل المستخدمين المحليين ----------
+let users = JSON.parse(localStorage.getItem('users')||'[]');
+let adminIds = [];
+let userIds = [];
+
+// ---------- تحميل ملف الأرقام المصرح بها ----------
+fetch('data/authorizedUsers.json')
+  .then(res => res.json())
+  .then(data => {
+    adminIds = data.admins || [];
+    userIds = data.users || [];
+  })
+  .catch(err => console.error('⚠️ خطأ في تحميل بيانات الدخول:', err));
+
+const idInput = document.getElementById('idNum');
+const firstTimeFields = document.getElementById('firstTimeFields');
+const formTitle = document.getElementById('formTitle');
+const kvMsg = document.getElementById('kvMsg');
+
+// ---------- التحقق من وجود المستخدم ----------
+idInput.addEventListener('input', ()=>{
+  const id = idInput.value.trim();
+  const user = users.find(u=>u.id===id);
+  if(user){
+    firstTimeFields.style.display='none';
+    formTitle.textContent='تسجيل الدخول';
+    kvMsg.textContent='ادخل كلمة المرور فقط';
+  } else {
+    firstTimeFields.style.display='block';
+    formTitle.textContent='تسجيل مستخدم جديد';
+    kvMsg.textContent='املأ جميع الحقول لإنشاء حسابك';
+  }
+});
+
+// ---------- عند الضغط على "تسجيل الدخول" ----------
+document.getElementById('loginForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const id = idInput.value.trim();
+  const password = document.getElementById('password').value.trim();
+  const confirmPassword = document.getElementById('confirmPassword').value.trim();
+  const upline = document.getElementById('upline').value.trim();
+
+  let user = users.find(u=>u.id===id);
+
+  // ✅ التحقق من السماح بالدخول
+  const isAuthorized = adminIds.includes(id) || userIds.includes(id);
+  if(!isAuthorized){
+    alert('🚫 هذا الرقم غير مصرح له بالدخول.');
+    return;
+  }
+
+  if(user){ // مستخدم موجود مسبقاً
+    if(user.password === password){
+      alert('✅ تم تسجيل الدخول بنجاح!');
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      if(adminIds.includes(id)) window.location.href='admin-dashboard.html';
+      else window.location.href='index.html';
+    } else {
+      alert('❌ كلمة المرور غير صحيحة');
+    }
+  } else { // مستخدم جديد
+    if(!password || !confirmPassword || !upline){
+      alert('⚠️ الرجاء ملء جميع الحقول');
+      return;
+    }
+    if(password !== confirmPassword){
+      alert('⚠️ كلمة المرور وتأكيدها غير متطابقين');
+      return;
+    }
+
+    const isAdmin = adminIds.includes(id);
+    users.push({id,password,upline,isAdmin});
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('currentUser', JSON.stringify({id,password,upline,isAdmin}));
+    alert('🎉 تم إنشاء حسابك بنجاح!');
+    if(isAdmin) window.location.href='admin-dashboard.html';
+    else window.location.href='index.html';
+  }
+});
+</script>
+
+</body>
+</html>

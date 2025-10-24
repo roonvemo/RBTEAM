@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مهام الإدارة - Royal Bee (Admin) - المنشورات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{ --orange:#FF751F; --glass: rgba(255,255,255,0.18); --glass-strong: rgba(255,255,255,0.28); --text:#072022; --muted:#666; --shadow: rgba(0,0,0,0.12); } 
+*{box-sizing:border-box} 
+html,body{height:100%;margin:0;font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#f6fbff,#e9f6f2);color:var(--text);-webkit-font-smoothing:antialiased;} 
+.container{max-width:1100px;margin:80px auto 120px;padding:20px;} 
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px} 
+.title {font-size:22px;color:var(--orange);font-weight:700} 
+.top-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center} 
+#workflowBtn{position:fixed;top:14px;right:14px;width:52px;height:52px;border-radius:50%;background:var(--glass-strong);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px var(--shadow);z-index:1001;text-decoration:none;color:var(--orange)} 
+#workflowBtn:hover{transform:scale(1.05);background:var(--orange);color:#fff} 
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px} 
+.tab-btn{background:var(--glass);border:1px solid rgba(255,255,255,0.25);padding:10px 14px;border-radius:20px;color:var(--orange);font-weight:700;cursor:pointer;transition:all .18s;box-shadow:0 6px 18px var(--shadow)} 
+.tab-btn.active{background:var(--orange);color:#fff;transform:scale(1.02)} 
+.section{display:none;background:var(--glass);backdrop-filter:blur(8px);border-radius:14px;padding:18px;margin-bottom:22px;box-shadow:0 8px 30px var(--shadow)} 
+.section.active{display:block} 
+.grid-2{display:grid;grid-template-columns:1fr 420px;gap:18px} 
+@media(max-width:920px){.grid-2{grid-template-columns:1fr;}} 
+.card{background:rgba(255,255,255,0.08);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 6px 18px rgba(0,0,0,0.06)} 
+label{display:block;margin:8px 0 6px;font-weight:700} 
+input[type="text"], input[type="time"], input[type="search"], select, textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#fff} 
+textarea{min-height:90px;resize:vertical} 
+.btn, .small-btn{background:var(--orange);color:#fff;border:none;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700} 
+.small-btn{padding:6px 10px;border-radius:10px} 
+.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer} 
+.preview-box img, .preview-box video, .preview-box iframe{max-width:100%;border-radius:10px;display:block;margin-top:8px} 
+.bottom-bar{position:fixed;bottom:0;right:0;left:0;height:64px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);display:flex;justify-content:space-around;align-items:center;border-top:1px solid rgba(0,0,0,0.06);box-shadow:0 -8px 18px rgba(0,0,0,0.06);z-index:1000} 
+.bottom-bar a img{width:28px;height:28px;display:block;cursor:pointer;opacity:0.95;transition:transform .15s} 
+.bottom-bar a img:hover{transform:scale(1.15)} 
+.controls-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap} 
+.kv{font-size:13px;color:var(--muted)} 
+.checkbox-group{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px} 
+.checkbox-group label{font-weight:400} 
+</style>
+</head>
+<body>
+
+<a id="workflowBtn" href="posts.html" title="Workflow">⚙️</a>
+
+<div class="container">
+  <div class="header-row">
+    <div>
+      <div class="title">لوحة إدارة العمل — Admin Panel</div>
+      <div class="kv">تحكم المنشورات، التدريب، طلبات الارتقاء، الإشعارات، إدارة المستخدمين والمتابعة اليومية</div>
+    </div>
+  </div>
+
+  <!-- POSTS -->
+  <section id="posts" class="section active">
+    <div class="grid-2">
+      <div>
+        <h3>📢 برمجة المنشورات</h3>
+        <label>صورة المنشور</label>
+        <input type="file" id="postFile" accept="image/*" />
+        <div class="preview-box" id="postImagePreview"></div>
+
+        <label>رابط فيديو أو موقع</label>
+        <input type="text" id="postLink" placeholder="ضع رابط YouTube هنا" />
+        <div class="preview-box" id="postVideoPreview"></div>
+
+        <label>نص المنشور</label>
+        <textarea id="postText" placeholder="اكتب نص المنشور هنا..."></textarea>
+
+        <label>اختيار القاعة</label>
+        <select id="postRoom">
+          <option value="marketers">قاعة المسوقين</option>
+          <option value="ambassadors">قاعة السفراء</option>
+          <option value="leaders">قاعة القادة</option>
+        </select>
+
+        <label>وقت أول نشر (اختياري)</label>
+        <input type="time" id="postTime" />
+
+        <label>أيام النشر</label>
+        <div class="checkbox-group" id="postDays"></div>
+
+        <label>أشهر النشر</label>
+        <div class="checkbox-group" id="postMonths"></div>
+
+        <label>أوقات النشر</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" value="09:00"> 09:00</label>
+          <label><input type="checkbox" value="18:00"> 18:00</label>
+          <label><input type="checkbox" value="21:00"> 21:00</label>
+        </div>
+
+        <div style="margin-top:8px" class="controls-row">
+          <button class="btn" id="savePostBtn">حفظ المنشور</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- bottom bar -->
+<div class="bottom-bar">
+  <a href="index.html"><img src="assets/icons/home.png" alt="home"></a>
+  <a href="chatrooms.html"><img src="assets/icons/chat.png" alt="chat"></a>
+  <a href="tasks.html"><img src="assets/icons/taches.png" alt="tasks"></a>
+  <a href="upgrade-demande.html"><img src="assets/icons/up.png" alt="upgrade"></a>
+  <a href="profile.html"><img src="assets/icons/profile.png" alt="profile"></a>
+</div>
+
+<script>
+// ---------- POSTS preview/save ----------
+const daysContainer = document.getElementById('postDays');
+for(let i=1;i<=31;i++){
+  const lbl = document.createElement('label');
+  lbl.innerHTML = `<input type="checkbox" value="${i}"> ${i}`;
+  daysContainer.appendChild(lbl);
+}
+
+const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const monthsContainer = document.getElementById('postMonths');
+months.forEach((m,i)=>{
+  const lbl = document.createElement('label');
+  lbl.innerHTML = `<input type="checkbox" value="${i+1}"> ${m}`;
+  monthsContainer.appendChild(lbl);
+});
+
+document.getElementById('postFile').addEventListener('change', e=>{
+  const f = e.target.files[0]; 
+  const target = document.getElementById('postImagePreview'); 
+  target.innerHTML='';
+  if(!f) return;
+  const img=document.createElement('img');
+  img.src=URL.createObjectURL(f);
+  target.appendChild(img);
+});
+
+document.getElementById('postLink').addEventListener('input', e=>{
+  const val=e.target.value.trim();
+  const target=document.getElementById('postVideoPreview');
+  target.innerHTML='';
+  if(!val) return;
+  const id = (val.match(/[?&]v=([A-Za-z0-9_-]{11})/)||val.match(/youtu\.be\/([A-Za-z0-9_-]{11})/))?.[1];
+  if(id){
+    target.innerHTML = `<iframe width="100%" height="200" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
+  } else {
+    target.textContent = 'رابط خارجي: '+val;
+  }
+});
+
+document.getElementById('savePostBtn').addEventListener('click', ()=>{
+  alert('تم حفظ المنشور (محلياً - تجريبي).');
+});
+</script>
+
+</body>
+</html>

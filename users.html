@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مهام الإدارة - Royal Bee (Admin) - إدارة المستخدمين</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{ --orange:#FF751F; --glass: rgba(255,255,255,0.18); --glass-strong: rgba(255,255,255,0.28); --text:#072022; --muted:#666; --shadow: rgba(0,0,0,0.12); } 
+*{box-sizing:border-box} 
+html,body{height:100%;margin:0;font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#f6fbff,#e9f6f2);color:var(--text);-webkit-font-smoothing:antialiased;} 
+.container{max-width:1100px;margin:80px auto 120px;padding:20px;} 
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px} 
+.title {font-size:22px;color:var(--orange);font-weight:700} 
+#workflowBtn{position:fixed;top:14px;right:14px;width:52px;height:52px;border-radius:50%;background:var(--glass-strong);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px var(--shadow);z-index:1001;text-decoration:none;color:var(--orange)} 
+#workflowBtn:hover{transform:scale(1.05);background:var(--orange);color:#fff} 
+.card{background:rgba(255,255,255,0.08);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 6px 18px rgba(0,0,0,0.06)} 
+.table{width:100%;border-collapse:collapse;margin-top:8px} 
+.table th, .table td{padding:10px 8px;text-align:right;border-bottom:1px solid rgba(0,0,0,0.04);font-size:14px} 
+.table th{color:var(--muted);font-weight:700} 
+input[type="text"], input[type="search"], select, textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#fff} 
+textarea{min-height:90px;resize:vertical} 
+.btn, .small-btn{background:var(--orange);color:#fff;border:none;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700} 
+.small-btn{padding:6px 10px;border-radius:10px} 
+.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text);padding:8px 10px;border-radius:10px} 
+.user-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.12)} 
+.controls-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap} 
+.search{display:flex;gap:8px;align-items:center} 
+.bottom-bar{position:fixed;bottom:0;right:0;left:0;height:64px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);display:flex;justify-content:space-around;align-items:center;border-top:1px solid rgba(0,0,0,0.06);box-shadow:0 -8px 18px rgba(0,0,0,0.06);z-index:1000} 
+.bottom-bar a img{width:28px;height:28px;display:block;cursor:pointer;opacity:0.95;transition:transform .15s} 
+.bottom-bar a img:hover{transform:scale(1.15)}
+</style>
+</head>
+<body>
+
+<a id="workflowBtn" href="users.html" title="Workflow">⚙️</a>
+
+<div class="container">
+  <div class="header-row">
+    <div>
+      <div class="title">لوحة إدارة العمل — Admin Panel</div>
+      <div class="kv">تحكم المنشورات، التدريب، طلبات الارتقاء، الإشعارات، إدارة المستخدمين والمتابعة اليومية</div>
+    </div>
+  </div>
+
+  <!-- USERS MANAGEMENT -->
+  <section id="users" class="section active">
+    <h3>👥 إدارة المستخدمين</h3>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap">
+        <div class="search" style="flex:1">
+          <input type="search" id="userSearch" placeholder="ابحث باسم أو رتبة..." />
+          <select id="filterRank" style="width:180px;margin-left:8px">
+            <option value="all">كل الرتب</option>
+            <option value="marketer">مسوق</option>
+            <option value="ambassador">سفير</option>
+            <option value="leader">قائد</option>
+            <option value="admin">أدمن</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="ghost" id="importUsersBtn">استيراد</button>
+          <button class="btn" id="addUserBtn">إضافة مستخدم جديد</button>
+        </div>
+      </div>
+      <table class="table" id="usersTable" style="margin-top:12px">
+        <thead>
+          <tr>
+            <th></th>
+            <th>الاسم</th>
+            <th>الرتبة</th>
+            <th>رقم تعريف</th>
+            <th>الحالة</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- add/edit form modal-ish -->
+    <div id="userFormWrap" class="card" style="margin-top:12px;display:none">
+      <h4 id="userFormTitle">إضافة مستخدم</h4>
+      <label>الاسم</label><input type="text" id="u_name" />
+      <label>الرتبة</label>
+      <select id="u_rank">
+        <option value="marketer">marketer</option>
+        <option value="ambassador">ambassador</option>
+        <option value="leader">leader</option>
+        <option value="admin">admin</option>
+      </select>
+      <label>الرقم التعريفي</label><input type="text" id="u_id" />
+      <label>صورة (رابط أو رفع)</label><input type="text" id="u_avatar" placeholder="assets/icons/user.png أو رابط" />
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button class="btn" id="saveUserBtn">حفظ</button>
+        <button class="ghost" id="cancelUserBtn">إلغاء</button>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- bottom bar -->
+<div class="bottom-bar">
+  <a href="index.html"><img src="assets/icons/home.png" alt="home"></a>
+  <a href="chatrooms.html"><img src="assets/icons/chat.png" alt="chat"></a>
+  <a href="tasks.html"><img src="assets/icons/taches.png" alt="tasks"></a>
+  <a href="upgrade-demande.html"><img src="assets/icons/up.png" alt="upgrade"></a>
+  <a href="profile.html"><img src="assets/icons/profile.png" alt="profile"></a>
+</div>
+
+<script>
+// ---------- USERS management ----------
+let users = JSON.parse(localStorage.getItem('rbt_users')||'[]');
+if(!users.length){
+  users = [
+    {id:'U1001',name:'Ali',rank:'marketer',active:true,avatar:'assets/icons/profile-image.png'},
+    {id:'U1002',name:'Sara',rank:'ambassador',active:true,avatar:'assets/icons/profile-image.png'},
+    {id:'U1003',name:'Mohamed',rank:'leader',active:false,avatar:'assets/icons/profile-image.png'}
+  ];
+  localStorage.setItem('rbt_users',JSON.stringify(users));
+}
+
+const usersTableBody = document.getElementById('usersTable').querySelector('tbody');
+
+function renderUsers(filter='',rank='all'){
+  usersTableBody.innerHTML='';
+  const q = filter.trim().toLowerCase();
+  users.filter(u => (rank==='all' || u.rank===rank) && (u.name.toLowerCase().includes(q) || u.id.toLowerCase().includes(q)))
+  .forEach((u,idx)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML = `<td><img class="user-avatar" src="${u.avatar||'assets/icons/profile-image.png'}" alt=""></td>
+                    <td>${u.name}</td>
+                    <td>${u.rank}</td>
+                    <td>${u.id}</td>
+                    <td>${u.active?'<span style="color:green">مفعل</span>':'<span style="color:gray">موقف</span>'}</td>
+                    <td class="actions">
+                      <button class="small-btn" data-edit="${u.id}">عرض/تعديل</button>
+                      <button class="ghost" data-toggle="${u.id}">${u.active?'إيقاف':'تفعيل'}</button>
+                      <button class="ghost" data-delete="${u.id}">حذف</button>
+                    </td>`;
+    usersTableBody.appendChild(tr);
+  });
+}
+
+renderUsers();
+
+document.getElementById('userSearch').addEventListener('input',e=>renderUsers(e.target.value,document.getElementById('filterRank').value));
+document.getElementById('filterRank').addEventListener('change',e=>renderUsers(document.getElementById('userSearch').value,e.target.value));
+
+document.getElementById('addUserBtn').addEventListener('click',()=>{
+  document.getElementById('userFormWrap').style.display='block';
+  document.getElementById('userFormTitle').textContent='إضافة مستخدم';
+  document.getElementById('u_name').value='';
+  document.getElementById('u_rank').value='marketer';
+  document.getElementById('u_id').value='U'+Math.floor(1000+Math.random()*9000);
+  document.getElementById('u_avatar').value='';
+});
+
+document.getElementById('cancelUserBtn').addEventListener('click',()=>{document.getElementById('userFormWrap').style.display='none';});
+
+document.getElementById('saveUserBtn').addEventListener('click',()=>{
+  const name = document.getElementById('u_name').value.trim();
+  const rank = document.getElementById('u_rank').value;
+  const id = document.getElementById('u_id').value.trim()||('U'+Math.floor(1000+Math.random()*9000));
+  const avatar = document.getElementById('u_avatar').value.trim()||'assets/icons/profile-image.png';
+  if(!name){alert('أدخل الاسم');return;}
+  const existing = users.find(u=>u.id===id);
+  if(existing){
+    existing.name=name;
+    existing.rank=rank;
+    existing.avatar=avatar;
+  } else { users.unshift({id,name,rank,active:true,avatar}); }
+  localStorage.setItem('rbt_users',JSON.stringify(users));
+  renderUsers(document.getElementById('userSearch').value,document.getElementById('filterRank').value);
+  document.getElementById('userFormWrap').style.display='none';
+});
+
+// delegate user table actions
+usersTableBody.addEventListener('click', e=>{
+  const edit = e.target.getAttribute('data-edit');
+  const del = e.target.getAttribute('data-delete');
+  const tog = e.target.getAttribute('data-toggle');
+  if(edit){
+    const u = users.find(x=>x.id===edit);
+    if(!u) return;
+    document.getElementById('userFormWrap').style.display='block';
+    document.getElementById('userFormTitle').textContent='تعديل مستخدم';
+    document.getElementById('u_name').value=u.name;
+    document.getElementById('u_rank').value=u.rank;
+    document.getElementById('u_id').value=u.id;
+    document.getElementById('u_avatar').value=u.avatar||'';
+  } else if(del){
+    if(!confirm('هل تريد حذف المستخدم؟')) return;
+    users = users.filter(x=>x.id!==del);
+    localStorage.setItem('rbt_users',JSON.stringify(users));
+    renderUsers(document.getElementById('userSearch').value,document.getElementById('filterRank').value);
+  } else if(tog){
+    const u = users.find(x=>x.id===tog);
+    if(!u) return;
+    u.active=!u.active;
+    localStorage.setItem('rbt_users',JSON.stringify(users));
+    renderUsers(document.getElementById('userSearch').value,document.getElementById('filterRank').value);
+  }
+});
+
+// import dummy users
+document.getElementById('importUsersBtn').addEventListener('click',()=>{
+  const sample = [{id:'U2001',name:'Hassan',rank:'marketer',active:true,avatar:'assets/icons/profile-image.png'}];
+  users = [...sample,...users];
+  localStorage.setItem('rbt_users',JSON.stringify(users));
+  renderUsers();
+  alert('تم استيراد مستخدم تجريبي.');
+});
+</script>
+
+</body>
+</html>

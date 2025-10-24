@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استراتيجية العمل - Royal Bee</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #FF751F;
+  --white: #fff;
+  --black: #000;
+  --glass: rgba(255,255,255,0.25);
+}
+
+body {
+  margin: 0;
+  font-family: 'Tajawal', sans-serif;
+  background: linear-gradient(135deg, #d9f8ff, #e9ffff);
+  overflow-x: hidden;
+  color: var(--black);
+  position: relative;
+  min-height: 100vh;
+}
+
+/* الهيدر */
+header {
+  text-align: center;
+  padding: 15px;
+  margin-top: 60px;
+}
+header h1 {
+  color: var(--orange);
+  font-size: 22px;
+  text-shadow: 0 0 8px rgba(255,117,31,0.2);
+}
+
+/* الحاوية الرئيسية */
+.slider-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  height: calc(100vh - 130px);
+}
+.slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.slide img {
+  width: 85%;
+  max-width: 400px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+.slide h2 {
+  color: var(--orange);
+  margin-bottom: 10px;
+}
+.slide p {
+  text-align: justify;
+  line-height: 1.8;
+  font-size: 15px;
+  color: #333;
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 480px;
+  overflow-y: auto;
+  max-height: 65vh;
+}
+
+/* Bottom Bar */
+.bottom-bar {
+  position: fixed;
+  bottom: 0; right: 0; left: 0;
+  height: 60px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+  z-index: 1000;
+}
+.bottom-bar img {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.bottom-bar img:hover { transform: scale(1.2); }
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at 20% 30%, rgba(255,117,31,0.15), transparent 70%),
+              radial-gradient(circle at 80% 70%, rgba(255,117,31,0.1), transparent 70%);
+  z-index: -1;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>استراتيجية العمل</h1>
+</header>
+
+<div class="slider-container">
+
+  <!-- مقدمة -->
+  <section class="slide">
+    <img src="assets/image/intro-strategy.jpg" alt="مقدمة الاستراتيجية">
+    <h2>مقدمة إلى استراتيجية عملنا</h2>
+    <p>
+      فلسفة عملنا تعتمد على تحقيق ثلاثة أهداف أساسية تعزز مجالنا وتضمن نجاحنا المستمر. نركز جهودنا على تطوير استراتيجيات تسويقية مستوحاة من خبرة قادة الفريق لتعزيز رؤية وقيم المنتجات التي نقدمها، مع التركيز الدائم على عرض العمل بأسلوب لائق وحقيقي للمهتمين.  
+      بجانب ذلك، نولي اهتماماً خاصاً ببناء قيادة فعّالة تلهم وتدعم تطوير الفريق، مما يعزز التواصل والتعاون لتحقيق أهدافنا المشتركة.  
+      هذه الركائز الثلاثة تشكل أساس استراتيجيتنا التي نسعى لتطبيقها بإبداع ونجاح في كل جانب من جوانب عملنا.
+    </p>
+  </section>
+
+  <!-- مرحلة Marketer -->
+  <section class="slide">
+    <img src="assets/image/strategy-marketer.jpg" alt="Marketer">
+    <h2>RBT Marketer مسوق(ة)</h2>
+    <p>
+      الهدف الرئيسي هنا هو بدء عملية تشكيل قاعدة زبائن محتملة من خلال تنفيذ الخطة التسويقية المقترحة في القسم الأول من استراتيجية العمل، وذلك بهدف الترويج لبداية تسويق منتجاتنا بقيمة (100AC)، واسترداد الاستثمار الأولي الذي تم تقديمه مقابل عينات المنتج، محاولين الوصول إلى ثاني مستوى المتمثل في Chèque Cadeaux 70%.  
+      نحن مجبرون على تطبيق الخطة التسويقية للأسباب التالية:  
+      - من خلال التطبيق والتحليل نصبح قادرين على تحديد قدرتنا الحقيقية على التسويق.  
+      - إدراك ما سندرب عليه أعضاء الفريق لاحقًا.  
+      الوسيلة المقدمة لتخطي رتبة RBT Marketer هي الخطة التسويقية NIVEAU 1.
+    </p>
+  </section>
+
+  <!-- مرحلة Ambassador -->
+  <section class="slide">
+    <img src="assets/image/strategy-ambassador.jpg" alt="Ambassador">
+    <h2>RBT Ambassador سفير(ة)</h2>
+    <p>
+      في هذه المرحلة، يُعَظَّم الفرد باعتباره سفير فريقنا لدى الجمهور المهتم.  
+      يسعى الفرد إلى تطوير مهاراته في التدريب على تقديم عرض العمل، مع تركيزٍ فائقٍ على نقاط قوة شركتنا مقارنةً بمنافسينا، وتسليط الضوء على تميز منتجاتنا وقيمتها المُضافة.  
+      الهدف الأساسي هو تحقيق التحدي الثاني بنجاح عبر تجميع ثلاثية الفريق ومساعدتهم على تخطي هدف المسوق.  
+      الوسيلة المقدمة لتخطي رتبة RBT Marketer هي عرض العمل الفعّال.
+    </p>
+  </section>
+
+  <!-- مرحلة Leader -->
+  <section class="slide">
+    <img src="assets/image/strategy-leader.jpg" alt="Leader">
+    <h2>RBT Leader قائد(ة)</h2>
+    <p>
+      نعمل في هذه المرحلة على قيادة ثلاثية الفريق لتدريبهم وتوجيههم بهدف تخطي نفس التحديين السابقين.  
+      تبدأ المرحلة من تحصيل أعضاء الفريق على تحدي المسوق والسفير.  
+      يصبح التركيز على الاستنساخ ومتابعة الفريق (Reproduction and Team Follow-up) لتحقيق الاستمرارية.  
+      في النهاية، نعمل على تسجيل وتدريب ومتابعة أعضاء مسوقين جدد بنفس المراحل والتحديات.
+    </p>
+  </section>
+
+  <!-- مرحلة الخاتمة -->
+  <section class="slide">
+    <img src="assets/image/strategy-end.jpg" alt="الخاتمة">
+    <h2>الخاتمة</h2>
+    <p>
+      نقوم بتسويق منتجاتنا عن طريق الخطة التسويقية محاولين الوصول للكادو شاك لتخطي تحدي المسوق، ثم نتدرب على عرض العمل لتكوين ثلاثية الفريق.  
+      بعدها نعمل على تدريب أعضائنا لتخطي تحدي السفير ثم القائد، وبذلك نكون قد حققنا المراحل الثلاث.  
+      وأخيراً، يصبح تركيزنا على تسجيل وتدريب ومتابعة أعضاء جدد بنفس المراحل والتحديات، لضمان الاستمرارية والنمو المستدام للفريق.
+    </p>
+  </section>
+
+</div>
+
+<div class="bottom-bar">
+  <a href="index.html"><img src="assets/icons/home.png" alt="Home"></a>
+  <a href="chatrooms.html"><img src="assets/icons/chat.png" alt="Chatrooms"></a>
+  <a href="tasks.html"><img src="assets/icons/taches.png" alt="Tasks"></a>
+  <a href="upgrade-demande.html"><img src="assets/icons/up.png" alt="Upgrade"></a>
+  <a href="profile.html"><img src="assets/icons/profile.png" alt="Profile"></a>
+</div>
+
+</body>
+</html>

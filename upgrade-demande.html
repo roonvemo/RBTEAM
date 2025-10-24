@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>طلب الارتقاء - Royal Bee App</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #FF751F;
+  --white: #ffffff;
+  --glass-bg: rgba(255,255,255,0.25);
+  --shadow: rgba(0,0,0,0.1);
+}
+
+body {
+  margin: 0;
+  font-family: 'Tajawal', sans-serif;
+  background: linear-gradient(135deg, #d9f8ff, #e9ffff);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 80px;
+}
+
+header {
+  margin-top: 80px;
+  text-align: center;
+}
+header img {
+  width: 90px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(61,218,215,0.4);
+}
+header h1 {
+  color: var(--white);
+  margin: 15px 0;
+  font-size: 22px;
+  text-shadow: 0 0 10px rgba(61,218,215,0.2);
+}
+
+.card {
+  width: 90%;
+  max-width: 400px;
+  background: var(--orange);
+  color: var(--white);
+  text-align: center;
+  padding: 25px;
+  margin-top: 30px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 6px 20px var(--shadow);
+}
+.card:hover { background: #e86c1b; transform: scale(1.05); }
+.card:disabled, .card.inactive { background: #b85813; cursor: not-allowed; }
+
+.modal {
+  display: none; 
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  width: 90%;
+  max-width: 350px;
+  color: var(--white);
+}
+.modal-content h2 { margin-bottom: 20px; color: var(--white); }
+
+#confirmWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+.up-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--orange);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+}
+.up-circle img {
+  width: 28px;
+  height: 28px;
+}
+.up-circle:hover { transform: scale(1.1); }
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0; right: 0; left: 0;
+  height: 60px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+  z-index: 1000;
+}
+.bottom-bar img {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.bottom-bar img:hover { transform: scale(1.2); }
+
+</style>
+</head>
+<body>
+
+<header>
+  <img src="assets/image/logo.png" alt="شعار">
+  <h1>طلب الارتقاء</h1>
+</header>
+
+<div class="card inactive" id="upgradeBtn">
+  طلب الارتقاء
+</div>
+
+<div class="modal" id="upgradeModal">
+  <div class="modal-content">
+    <h2 id="modalText"></h2>
+    <div id="confirmWrapper">
+      <div class="up-circle" id="confirmUpgrade">
+        <img src="assets/icons/up.png" alt="Up">
+      </div>
+      <p>إرسال</p>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <a href="homepage.html"><img src="assets/icons/home.png" alt="Home"></a>
+  <a href="chatrooms.html"><img src="assets/icons/chat.png" alt="Chatrooms"></a>
+  <a href="tasks.html"><img src="assets/icons/taches.png" alt="Tasks"></a>
+  <a href="upgrade.html"><img src="assets/icons/up.png" alt="Upgrade"></a>
+  <a href="profile.html"><img src="assets/icons/profile.png" alt="Profile"></a>
+</div>
+
+<script>
+const userRank = localStorage.getItem("user_rank") || "marketer";
+
+function allTasksDone(rank){
+  const tasks = {
+    marketers: [
+      "تحديد مجموعة المنتجات",
+      "تجميع المعلومات الخاصة بالمنتجات",
+      "اعداد قائمة أسماء",
+      "بدا التواصل مع قائمة الأسماء و مع 3 أشخاص يوميا",
+      "إعادة التواصل مع الزبون لاخذ انطباعه وتجميعه في بنك الانطباعات",
+      "تسويق طلبية 100 AC",
+      "بعد وصول زبائنك 5 أشخاص تعاد برمجة الاتصال بهم لعرض و تحفيز الزبون للفوز بمنتج + كاتلوج هدية اذا بلغت مشترياته 5000 دج"
+    ],
+    ambassadors: [
+      "التدريب على تقديم نص عرض العمل",
+      "التعرف علي اماكن عرض العمل",
+      "اعداد قائمة أسماء",
+      "عرض / دعوة الى محاضرة عرض العمل / لقاء ثلاثي مع الابلاين",
+      "تحقيق اول ثلاثية"
+    ],
+    leaders: [
+      "نعمل في هذه المرحلة من التحدي على العمل على قيادة ثلاثية الفريق لتدريبهم وتوجيهم بهدف تخطي نفس التحديين السابقين لك . بداية من تحصيلهم على تحدي مسوق و تحدي سفير"
+    ]
+  };
+  
+  let tasksToCheck = [];
+  if(userRank === "marketer") tasksToCheck = tasks.marketers;
+  else if(userRank === "ambassador") tasksToCheck = [...tasks.marketers, ...tasks.ambassadors];
+  else if(userRank === "leader") tasksToCheck = [...tasks.marketers, ...tasks.ambassadors, ...tasks.leaders];
+  
+  return tasksToCheck.every(t => localStorage.getItem(t) === "done");
+}
+
+const upgradeBtn = document.getElementById("upgradeBtn");
+if(allTasksDone(userRank)){
+  upgradeBtn.classList.remove("inactive");
+  upgradeBtn.addEventListener("click", () => {
+    const modal = document.getElementById("upgradeModal");
+    const modalText = document.getElementById("modalText");
+    let nextRank = "";
+    if(userRank === "marketer") nextRank = "سفير";
+    else if(userRank === "ambassador") nextRank = "قائد";
+    else nextRank = "لا يوجد ارتقاء أعلى";
+
+    modalText.textContent = `أنا ${userRank} وأريد الارتقاء إلى رتبة ${nextRank}`;
+    modal.style.display = "flex";
+  });
+}
+
+document.getElementById("confirmUpgrade").addEventListener("click", () => {
+  alert("تم إرسال طلبك للارتقاء ✅");
+  document.getElementById("upgradeModal").style.display = "none";
+});
+</script>
+
+</body>
+</html>

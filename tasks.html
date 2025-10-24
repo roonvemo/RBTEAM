@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المهام - Royal Bee App</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #FF751F;
+  --white: #ffffff;
+  --black: #000000;
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --shadow: rgba(0,0,0,0.1);
+}
+
+body {
+  margin: 0;
+  font-family: 'Tajawal', sans-serif;
+  background: linear-gradient(135deg, #d9f8ff, #e9ffff);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 80px;
+}
+
+/* Workflow للأدمن */
+#workflowBtn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  color: var(--white);
+  font-size: 20px;
+  text-decoration: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px var(--shadow);
+  z-index: 1000;
+}
+#workflowBtn:hover {
+  transform: scale(1.1);
+  background: var(--orange);
+  color: var(--white);
+}
+
+/* Header */
+header {
+  margin-top: 80px;
+  text-align: center;
+}
+header img {
+  width: 90px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(61, 218, 215, 0.4);
+}
+header h1 {
+  color: var(--white);
+  margin: 15px 0;
+  font-size: 22px;
+  text-shadow: 0 0 10px rgba(61,218,215,0.2);
+}
+
+/* Grid المهام */
+.grid {
+  width: 90%;
+  max-width: 420px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 25px;
+}
+
+.card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 6px 20px var(--shadow);
+  padding: 25px 15px;
+  text-align: center;
+  transition: 0.3s;
+  border: 1px solid rgba(255,117,31,0.3);
+  color: var(--white);
+  font-weight: bold;
+  text-decoration: none;
+  background-color: var(--orange);
+  cursor: pointer;
+}
+.card:hover { background: #e86c1b; transform: scale(1.05); }
+.card.completed { opacity: 0.5; background: #b85813; }
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0; right: 0; left: 0;
+  height: 60px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+  z-index: 1000;
+}
+.bottom-bar img {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.bottom-bar img:hover { transform: scale(1.2); }
+
+@media (max-width: 400px){
+  .grid { grid-template-columns: 1fr; }
+  header h1 { font-size: 20px; }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at 20% 30%, rgba(255,117,31,0.15), transparent 70%),
+              radial-gradient(circle at 80% 70%, rgba(255,117,31,0.1), transparent 70%);
+  z-index: -1;
+}
+</style>
+</head>
+<body>
+
+<a id="workflowBtn" href="admin-tasks.html" title="Workflow">⚙️</a>
+
+<header>
+  <img src="assets/image/logo.png" alt="شعار">
+  <h1>المهام</h1>
+</header>
+
+<div class="grid" id="tasksGrid">
+  <!-- المهام ستُضاف ديناميكيًا -->
+</div>
+
+<div class="bottom-bar">
+  <a href="index.html"><img src="assets/icons/home.png" alt="Home"></a>
+  <a href="chatrooms.html"><img src="assets/icons/chat.png" alt="Chatrooms"></a>
+  <a href="tasks.html"><img src="assets/icons/taches.png" alt="Tasks"></a>
+  <a href="upgrade-demande.html"><img src="assets/icons/up.png" alt="Upgrade"></a>
+  <a href="profile.html"><img src="assets/icons/profile.png" alt="Profile"></a>
+</div>
+
+<script src="assets/js/admin-button.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const tasksGrid = document.getElementById("tasksGrid");
+  const userRank = localStorage.getItem("user_rank") || "marketer";
+
+  const allTasks = {
+    marketers: [
+      "تحديد مجموعة المنتجات",
+      "تجميع المعلومات الخاصة بالمنتجات",
+      "اعداد قائمة أسماء",
+      "بدا التواصل مع قائمة الأسماء و مع 3 أشخاص يوميا",
+      "إعادة التواصل مع الزبون لاخذ انطباعه وتجميعه في بنك الانطباعات",
+      "تسويق طلبية 100 AC",
+      "بعد وصول زبائنك 5 أشخاص تعاد برمجة الاتصال بهم لعرض و تحفيز الزبون للفوز بمنتج + كاتلوج هدية اذا بلغت مشترياته 5000 دج"
+    ],
+    ambassadors: [
+      "التدريب على تقديم نص عرض العمل",
+      "التعرف علي اماكن عرض العمل",
+      "اعداد قائمة أسماء",
+      "عرض / دعوة الى محاضرة عرض العمل / لقاء ثلاثي مع الابلاين",
+      "تحقيق اول ثلاثية"
+    ],
+    leaders: [
+      "نعمل في هذه المرحلة من التحدي على قيادة ثلاثية الفريق لتدريبهم وتوجيهم بهدف تخطي نفس التحديين السابقين لك . بداية من تحصيلهم على تحدي مسوق و تحدي سفير"
+    ]
+  };
+
+  let tasksToShow = [];
+  if(userRank === "marketer") tasksToShow = allTasks.marketers;
+  else if(userRank === "ambassador") tasksToShow = [...allTasks.marketers, ...allTasks.ambassadors];
+  else if(userRank === "leader") tasksToShow = [...allTasks.marketers, ...allTasks.ambassadors, ...allTasks.leaders];
+
+  tasksToShow.forEach(task => {
+    const taskBtn = document.createElement("a");
+    taskBtn.className = "card";
+    taskBtn.href = "#"; // يمكن وضع رابط المهمة الفعلي لاحقًا
+    taskBtn.textContent = task;
+
+    // حالة المهمة المكتملة
+    if(localStorage.getItem(task) === "done"){
+      taskBtn.classList.add("completed");
+    }
+
+    // عند النقر على المهمة، نعلم أنها مكتملة
+    taskBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.setItem(task, "done");
+      taskBtn.classList.add("completed");
+    });
+
+    tasksGrid.appendChild(taskBtn);
+  });
+
+  // Workflow للأدمن
+  if(userRank === "admin"){
+    document.getElementById("workflowBtn").style.display = "flex";
+  }
+});
+</script>
+
+</body>
+</html>

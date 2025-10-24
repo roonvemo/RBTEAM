@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مهام الإدارة - Royal Bee (Admin) - الإشعارات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{ --orange:#FF751F; --glass: rgba(255,255,255,0.18); --glass-strong: rgba(255,255,255,0.28); --text:#072022; --muted:#666; --shadow: rgba(0,0,0,0.12); } 
+*{box-sizing:border-box} 
+html,body{height:100%;margin:0;font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#f6fbff,#e9f6f2);color:var(--text);-webkit-font-smoothing:antialiased;} 
+.container{max-width:1100px;margin:80px auto 120px;padding:20px;} 
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px} 
+.title {font-size:22px;color:var(--orange);font-weight:700} 
+#workflowBtn{position:fixed;top:14px;right:14px;width:52px;height:52px;border-radius:50%;background:var(--glass-strong);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px var(--shadow);z-index:1001;text-decoration:none;color:var(--orange)} 
+#workflowBtn:hover{transform:scale(1.05);background:var(--orange);color:#fff} 
+.section{display:none;background:var(--glass);backdrop-filter:blur(8px);border-radius:14px;padding:18px;margin-bottom:22px;box-shadow:0 8px 30px var(--shadow)} 
+.section.active{display:block} 
+.card{background:rgba(255,255,255,0.08);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 6px 18px rgba(0,0,0,0.06)} 
+label{display:block;margin:8px 0 6px;font-weight:700} 
+input[type="text"], input[type="time"], input[type="file"], select, textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#fff} 
+textarea{min-height:90px;resize:vertical} 
+.btn, .small-btn{background:var(--orange);color:#fff;border:none;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700} 
+.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text);padding:8px 10px;border-radius:10px} 
+.preview-box img{max-width:100%;border-radius:10px;display:block} 
+.bottom-bar{position:fixed;bottom:0;right:0;left:0;height:64px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);display:flex;justify-content:space-around;align-items:center;border-top:1px solid rgba(0,0,0,0.06);box-shadow:0 -8px 18px rgba(0,0,0,0.06);z-index:1000} 
+.bottom-bar a img{width:28px;height:28px;display:block;cursor:pointer;opacity:0.95;transition:transform .15s} 
+.bottom-bar a img:hover{transform:scale(1.15)}
+</style>
+</head>
+<body>
+
+<a id="workflowBtn" href="notification.html" title="Workflow">⚙️</a>
+
+<div class="container">
+  <div class="header-row">
+    <div>
+      <div class="title">لوحة إدارة العمل — Admin Panel</div>
+      <div class="kv">تحكم المنشورات، التدريب، طلبات الارتقاء، الإشعارات، إدارة المستخدمين والمتابعة اليومية</div>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION -->
+  <section id="notification" class="section active">
+    <h3>🔔 برمجة الإشعار</h3>
+    <label>صورة الإشعار</label>
+    <input type="file" id="notifFile" accept="image/*" />
+    <div class="preview-box" id="notifPreview"></div>
+    <label>نص الإشعار</label>
+    <textarea id="notifText" placeholder="اكتب نص الإشعار هنا..."></textarea>
+    <label>اختيار القاعة</label>
+    <select id="notifRoom">
+      <option value="all">كل القاعات</option>
+      <option value="marketers">قاعة المسوقين</option>
+      <option value="ambassadors">قاعة السفراء</option>
+      <option value="leaders">قاعة القادة</option>
+    </select>
+    <label>وقت النشر</label>
+    <input type="time" id="notifTime" />
+    <div style="margin-top:10px">
+      <button class="btn" id="saveNotifBtn">حفظ الإشعار</button>
+    </div>
+  </section>
+</div>
+
+<!-- bottom bar -->
+<div class="bottom-bar">
+  <a href="index.html"><img src="assets/icons/home.png" alt="home"></a>
+  <a href="chatrooms.html"><img src="assets/icons/chat.png" alt="chat"></a>
+  <a href="tasks.html"><img src="assets/icons/taches.png" alt="tasks"></a>
+  <a href="upgrade-demande.html"><img src="assets/icons/up.png" alt="upgrade"></a>
+  <a href="profile.html"><img src="assets/icons/profile.png" alt="profile"></a>
+</div>
+
+<script>
+// ---------- NOTIFICATIONS ----------
+document.getElementById('notifFile').addEventListener('change',e=>{
+  const f=e.target.files[0], target=document.getElementById('notifPreview');
+  target.innerHTML='';
+  if(!f) return;
+  const img=document.createElement('img');
+  img.src=URL.createObjectURL(f);
+  target.appendChild(img);
+});
+
+document.getElementById('saveNotifBtn').addEventListener('click',()=>alert('تم حفظ الإشعار (محلياً - تجريبي).'));
+</script>
+
+</body>
+</html>
