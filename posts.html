@@ -152,6 +152,40 @@ document.getElementById('savePostBtn').addEventListener('click', ()=>{
   alert('تم حفظ المنشور (محلياً - تجريبي).');
 });
 </script>
+<script>
+// --- زر الادمن يظهر فقط للمسؤولين ---
+const currentUser = JSON.parse(localStorage.getItem('users') || '[]')
+  .find(u => u.id === localStorage.getItem('currentUserId'));
+
+if (currentUser && currentUser.isAdmin) {
+  const adminBtn = document.createElement('a');
+  adminBtn.href = 'admin-dashboard.html';
+  adminBtn.title = 'لوحة الإدارة';
+  adminBtn.style.position = 'fixed';
+  adminBtn.style.bottom = '90px';
+  adminBtn.style.right = '14px';
+  adminBtn.style.width = '52px';
+  adminBtn.style.height = '52px';
+  adminBtn.style.borderRadius = '50%';
+  adminBtn.style.background = 'rgba(255,255,255,0.9)';
+  adminBtn.style.display = 'flex';
+  adminBtn.style.alignItems = 'center';
+  adminBtn.style.justifyContent = 'center';
+  adminBtn.style.boxShadow = '0 6px 18px rgba(0,0,0,0.12)';
+  adminBtn.style.zIndex = '1001';
+
+  const icon = document.createElement('img');
+  icon.src = 'assets/icons/team-tasks.png';
+  icon.alt = 'Admin Dashboard';
+  icon.style.width = '28px';
+  icon.style.height = '28px';
+  icon.style.objectFit = 'contain';
+  adminBtn.appendChild(icon);
+
+  document.body.appendChild(adminBtn);
+}
+</script>
 
 </body>
 </html>
+
