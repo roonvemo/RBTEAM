@@ -12,9 +12,35 @@ html,body{height:100%;margin:0;font-family:'Tajawal',sans-serif;background:linea
 .container{max-width:1100px;margin:80px auto 120px;padding:20px;} 
 .header-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px} 
 .title {font-size:22px;color:var(--orange);font-weight:700} 
-.top-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center} 
-#workflowBtn{position:fixed;top:14px;right:14px;width:52px;height:52px;border-radius:50%;background:var(--glass-strong);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px var(--shadow);z-index:1001;text-decoration:none;color:var(--orange)} 
-#workflowBtn:hover{transform:scale(1.05);background:var(--orange);color:#fff} 
+.top-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* 🔹 زر لوحة التحكم للأدمن */
+#adminBtn{
+  position:fixed;
+  top:14px;
+  right:14px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:var(--glass-strong);
+  display:none; /* يظهر فقط للأدمن */
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 6px 18px var(--shadow);
+  z-index:1001;
+  text-decoration:none;
+  border:2px solid var(--orange);
+  transition:0.2s;
+}
+#adminBtn img{
+  width:30px;
+  height:30px;
+}
+#adminBtn:hover{
+  transform:scale(1.1);
+  background:var(--orange);
+}
+
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px} 
 .tab-btn{background:var(--glass);border:1px solid rgba(255,255,255,0.25);padding:10px 14px;border-radius:20px;color:var(--orange);font-weight:700;cursor:pointer;transition:all .18s;box-shadow:0 6px 18px var(--shadow)} 
 .tab-btn.active{background:var(--orange);color:#fff;transform:scale(1.02)} 
@@ -41,7 +67,10 @@ textarea{min-height:90px;resize:vertical}
 </head>
 <body>
 
-<a id="workflowBtn" href="posts.html" title="Workflow">⚙️</a>
+<!-- 🔹 زر الأدمن -->
+<a id="adminBtn" href="admin-dashboard.html" title="لوحة التحكم">
+  <img src="assets/icons/team-tasks.png" alt="Admin Dashboard">
+</a>
 
 <div class="container">
   <div class="header-row">
@@ -151,41 +180,17 @@ document.getElementById('postLink').addEventListener('input', e=>{
 document.getElementById('savePostBtn').addEventListener('click', ()=>{
   alert('تم حفظ المنشور (محلياً - تجريبي).');
 });
-</script>
-<script>
-// --- زر الادمن يظهر فقط للمسؤولين ---
-const currentUser = JSON.parse(localStorage.getItem('users') || '[]')
-  .find(u => u.id === localStorage.getItem('currentUserId'));
 
-if (currentUser && currentUser.isAdmin) {
-  const adminBtn = document.createElement('a');
-  adminBtn.href = 'admin-dashboard.html';
-  adminBtn.title = 'لوحة الإدارة';
-  adminBtn.style.position = 'fixed';
-  adminBtn.style.bottom = '90px';
-  adminBtn.style.right = '14px';
-  adminBtn.style.width = '52px';
-  adminBtn.style.height = '52px';
-  adminBtn.style.borderRadius = '50%';
-  adminBtn.style.background = 'rgba(255,255,255,0.9)';
-  adminBtn.style.display = 'flex';
-  adminBtn.style.alignItems = 'center';
-  adminBtn.style.justifyContent = 'center';
-  adminBtn.style.boxShadow = '0 6px 18px rgba(0,0,0,0.12)';
-  adminBtn.style.zIndex = '1001';
-
-  const icon = document.createElement('img');
-  icon.src = 'assets/icons/team-tasks.png';
-  icon.alt = 'Admin Dashboard';
-  icon.style.width = '28px';
-  icon.style.height = '28px';
-  icon.style.objectFit = 'contain';
-  adminBtn.appendChild(icon);
-
-  document.body.appendChild(adminBtn);
-}
+// 🔸 زر الأدمن - يظهر فقط للمسؤولين
+document.addEventListener("DOMContentLoaded", () => {
+  const users = JSON.parse(localStorage.getItem("users") || "[]");
+  const currentId = localStorage.getItem("currentUserId");
+  const currentUser = users.find(u => u.id === currentId);
+  if (currentUser && currentUser.isAdmin) {
+    document.getElementById("adminBtn").style.display = "flex";
+  }
+});
 </script>
 
 </body>
 </html>
-
