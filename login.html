@@ -9,18 +9,22 @@
 :root{--orange:#FF751F;--glass: rgba(255,255,255,0.18);--glass-strong: rgba(255,255,255,0.28);--text:#072022;--muted:#666;--shadow: rgba(0,0,0,0.12);}
 *{box-sizing:border-box;}
 html,body{height:100%;margin:0;font-family:'Tajawal',sans-serif;background:linear-gradient(135deg,#f6fbff,#e9f6f2);color:var(--text);display:flex;justify-content:center;align-items:center;}
-.container{background:var(--glass-strong);backdrop-filter:blur(8px);padding:40px 30px;border-radius:18px;box-shadow:0 8px 30px var(--shadow);max-width:400px;width:100%;}
+.container{background:var(--glass-strong);backdrop-filter:blur(8px);padding:40px 30px;border-radius:18px;box-shadow:0 8px 30px var(--shadow);max-width:400px;width:100%;text-align:center;}
 h2{text-align:center;color:var(--orange);margin-bottom:20px;}
-label{display:block;margin:10px 0 6px;font-weight:700;}
+label{display:block;margin:10px 0 6px;font-weight:700;text-align:right;}
 input{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#fff;margin-bottom:10px;}
 .btn{width:100%;padding:12px;background:var(--orange);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;margin-top:10px;}
 .btn:hover{transform:scale(1.03);transition:0.2s;}
 .kv{text-align:center;color:var(--muted);font-size:13px;margin-top:12px;}
+.logo{width:100px;height:auto;margin-bottom:15px;}
 </style>
 </head>
 <body>
 
 <div class="container">
+  <!-- ✅ إضافة اللوجو هنا -->
+  <img src="assets/logo.png" alt="Royal Bee Logo" class="logo">
+
   <h2 id="formTitle">تسجيل الدخول</h2>
   <form id="loginForm">
     <label for="idNum">الرقم التعريفي</label>
