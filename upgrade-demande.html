@@ -24,6 +24,33 @@ body {
   padding-bottom: 80px;
 }
 
+/* --- الزر الثابت للأدمن --- */
+#adminBtn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(10px);
+  display: none; /* افتراضياً لا يظهر */
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  cursor: pointer;
+  z-index: 999;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+#adminBtn img {
+  width: 28px;
+  height: 28px;
+}
+#adminBtn:hover {
+  transform: scale(1.08);
+  background: var(--orange);
+}
+
 header {
   margin-top: 80px;
   text-align: center;
@@ -128,6 +155,11 @@ header h1 {
 </head>
 <body>
 
+<!-- زر الأدمن -->
+<a id="adminBtn" href="admin-dashboard.html" title="لوحة التحكم">
+  <img src="assets/icons/team tasks.png" alt="Admin">
+</a>
+
 <header>
   <img src="assets/image/logo.png" alt="شعار">
   <h1>طلب الارتقاء</h1>
@@ -158,6 +190,12 @@ header h1 {
 </div>
 
 <script>
+// -------- زر الأدمن --------
+const isAdmin = localStorage.getItem("isAdmin") === "true";
+const adminBtn = document.getElementById("adminBtn");
+if (isAdmin) adminBtn.style.display = "flex";
+
+// -------- منطق التحدي والارتقاء --------
 const userRank = localStorage.getItem("user_rank") || "marketer";
 
 function allTasksDone(rank){
